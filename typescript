@@ -1,0 +1,71 @@
+Script started on Sat Mar  7 22:11:05 2026
+[0m[49m[39m[27m[24m[K
+[1A7[0m[49m[39m]133;A[0m[49m[38;5;31m[1m[38;5;31m[38;5;39m~[0m[38;5;39m[49m[38;5;31m/[38;5;103ms[0m[38;5;103m[49m[38;5;31m/[38;5;103mka[0m[38;5;103m[49m[38;5;31m/[1m[38;5;31m[38;5;39mkapi-website[0m[38;5;39m[49m[38;5;31m[0m[38;5;31m[49m[38;5;31m[0m[38;5;31m[49m [0m[38;5;31m[49m[38;5;76m❯[0m[38;5;76m[49m[38;5;76m[0m[38;5;76m[49m[30m[0m[30m[49m[39m [0m[49m[39m]133;B[?2004h[?25l8[0m[49m[39m[27m[24m[J
+[[33mWARNING[39m]: Console output during zsh initialization detected.
+
+When using Powerlevel10k with instant prompt, console output during zsh
+initialization may indicate issues.
+
+You can:
+
+  - [1mRecommended[0m: Change [1m~/.zshrc[0m so that it does not perform console I/O
+    after the instant prompt preamble. See the link below for details.
+
+    * You [1mwill not[0m see this error message again.
+    * Zsh will start [1mquickly[0m and prompt will update [1msmoothly[0m.
+
+  - Suppress this warning either by running [1mp10k configure[0m or by manually
+    defining the following parameter:
+
+      [33mtypeset[39m -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+    * You [1mwill not[0m see this error message again.
+    * Zsh will start [1mquickly[0m but prompt will [1mjump down[0m after initialization.
+
+  - Disable instant prompt either by running [1mp10k configure[0m or by manually
+    defining the following parameter:
+
+      [33mtypeset[39m -g POWERLEVEL9K_INSTANT_PROMPT=off
+
+    * You [1mwill not[0m see this error message again.
+    * Zsh will start [1mslowly[0m.
+
+  - Do nothing.
+
+    * You [1mwill[0m see this error message every time you start zsh.
+    * Zsh will start [1mquickly[0m but prompt will [1mjump down[0m after initialization.
+
+For details, see:
+]8;;https://github.com/romkatv/powerlevel10k#instant-prompthttps://github.com/romkatv/powerlevel10k#instant-prompt]8;;
+
+[33m-- console output produced during zsh initialization follows --[39m
+
+/Users/medisan/.zshrc:120: command not found: code
+/Users/medisan/.zshrc:.:120: no such file or directory: 
+]2;medisan@medisan:~/software/kapi/kapi-website]1;../kapi-website]7;file://medisan/Users/medisan/software/kapi/kapi-website\[0m[38;5;31m[49m[39m[27m[24m[1m[7m%[27m[1m[0m                                                                      [0m[49m[39m[27m[24m[K[0m[27m[24m[J[0m[49m[39m[0m[49m[38;5;31m[1m[38;5;31m[38;5;39m~[0m[38;5;39m[49m[38;5;31m/[38;5;103ms[0m[38;5;103m[49m[38;5;31m/[38;5;103mka[0m[38;5;103m[49m[38;5;31m/[1m[38;5;31m[38;5;39mkapi-website[0m[38;5;39m[49m[38;5;31m[0m[38;5;31m[49m[38;5;31m[0m[38;5;31m[49m [0m[38;5;31m[49m[38;5;178m[39mon [0m[49m[38;5;178m[38;5;76mmain [38;5;178m!9 [38;5;39m?22[0m[38;5;39m[49m[38;5;178m[0m[38;5;178m[49m [0m[38;5;178m[49m[38;5;196m❯[0m[38;5;196m[49m[38;5;196m[0m[38;5;196m[49m[30m[0m[30m[49m[39m [0m[49m[39m[K[19C[0m[49m[38;5;66m[39mat [0m[49m[38;5;66m10:11:05 PM[0m[38;5;66m[49m[38;5;66m[0m[38;5;66m[49m[38;5;66m[0m[38;5;66m[49m[39m[33D[?1h=[?25h[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                       ]2;medisan@medisan:~/software/kapi/kapi-website]1;../kapi-website]7;file://medisan/Users/medisan/software/kapi/kapi-website\[0m[27m[24m[J[0m[49m[39m[0m[49m[38;5;31m[1m[38;5;31m[38;5;39m~[0m[38;5;39m[49m[38;5;31m/[38;5;103ms[0m[38;5;103m[49m[38;5;31m/[38;5;103mka[0m[38;5;103m[49m[38;5;31m/[1m[38;5;31m[38;5;39mkapi-website[0m[38;5;39m[49m[38;5;31m[0m[38;5;31m[49m[38;5;31m[0m[38;5;31m[49m [0m[38;5;31m[49m[38;5;178m[39mon [0m[49m[38;5;178m[38;5;76mmain [38;5;178m!9 [38;5;39m?22[0m[38;5;39m[49m[38;5;178m[0m[38;5;178m[49m [0m[38;5;178m[49m[38;5;196m❯[0m[38;5;196m[49m[38;5;196m[0m[38;5;196m[49m[30m[0m[30m[49m[39m [0m[49m[39m[K[13C[0m[49m[38;5;160m✘ INT[0m[38;5;160m[49m[38;5;160m[0m[38;5;160m[49m[38;5;160m[0m[38;5;160m[49m[38;5;66m [39mat [0m[49m[38;5;66m10:11:13 PM[0m[38;5;66m[49m[38;5;66m[0m[38;5;66m[49m[38;5;66m[0m[38;5;66m[49m[39m[33D[?1h=[?2004h  echo test123[K[13D [32me[32mc[32mh[32mo[39m[8C[?1l>[?2004l
+]2;echo test123]1;echotest123
+[1m[7m%[27m[1m[0m                                                                       ]2;medisan@medisan:~/software/kapi/kapi-website]1;../kapi-website]7;file://medisan/Users/medisan/software/kapi/kapi-website\[0m[27m[24m[J[0m[49m[39m[0m[49m[38;5;31m[1m[38;5;31m[38;5;39m~[0m[38;5;39m[49m[38;5;31m/[38;5;103ms[0m[38;5;103m[49m[38;5;31m/[38;5;103mka[0m[38;5;103m[49m[38;5;31m/[1m[38;5;31m[38;5;39mkapi-website[0m[38;5;39m[49m[38;5;31m[0m[38;5;31m[49m[38;5;31m[0m[38;5;31m[49m [0m[38;5;31m[49m[38;5;178m[39mon [0m[49m[38;5;178m[38;5;76mmain [38;5;178m!9 [38;5;39m?22[0m[38;5;39m[49m[38;5;178m[0m[38;5;178m[49m [0m[38;5;178m[49m[38;5;76m❯[0m[38;5;76m[49m[38;5;76m[0m[38;5;76m[49m[30m[0m[30m[49m[39m [0m[49m[39m[K[19C[0m[49m[38;5;66m[39mat [0m[49m[38;5;66m10:11:13 PM[0m[38;5;66m[49m[38;5;66m[0m[38;5;66m[49m[38;5;66m[0m[38;5;66m[49m[39m[33D[?1h=[?2004h echo test123[13D [32me[32mc[32mh[32mo[39m[8C[13Dn[32mp[32mm[32m [32mr[39mun dev  [12D[32mn[32mp[32mm[39m[39m [39mr[7C [?1l>[?2004l
+]2;npm run dev]1;npm
+> kapi-website@0.1.0 dev
+> next dev
+
+[1G[0K  [1m[38;2;173;127;168m▲ Next.js 14.2.35[39m[22m
+  - Local:        http://localhost:3000
+
+ [32m[1m✓[22m[39m Starting...
+ [32m[1m✓[22m[39m Ready in 1438ms
+ [37m[1m○[22m[39m Compiling / ...
+ [32m[1m✓[22m[39m Compiled / in 2.1s (1776 modules)
+ [32m[1m✓[22m[39m Compiled in 394ms (860 modules)
+ GET / [32m200[39m in 2623ms
+ [32m[1m✓[22m[39m Compiled /favicon.ico in 335ms (948 modules)
+ GET /favicon.ico [32m200[39m in 420ms
+ [32m[1m✓[22m[39m Compiled in 993ms (1794 modules)
+ [37m[1m○[22m[39m Compiling /about ...
+ [32m[1m✓[22m[39m Compiled /products in 1737ms (1808 modules)
+ [32m[1m✓[22m[39m Compiled /services in 250ms (1822 modules)
+ [32m[1m✓[22m[39m Compiled /services/[slug] in 244ms (1834 modules)
+ [32m[1m✓[22m[39m Compiled /blog in 246ms (1854 modules)
+ [32m[1m✓[22m[39m Compiled /blog/[slug] in 307ms (2038 modules)
+ [32m[1m✓[22m[39m Compiled /contact in 313ms (2042 modules)
