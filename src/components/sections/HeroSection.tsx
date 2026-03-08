@@ -128,10 +128,10 @@ export default function HeroSection() {
                 >
                   <Image
                     src={images[currentImage]}
-                    alt="KapıArt ürün görseli"
+                    alt={`KapıArt kapı modeli ${currentImage + 1}`}
                     fill
                     className="object-cover"
-                    priority
+                    priority={currentImage === 0}
                     sizes="(max-width: 768px) 100vw, 400px"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -147,6 +147,7 @@ export default function HeroSection() {
                   <button
                     key={i}
                     onClick={() => setCurrentImage(i)}
+                    aria-label={`Görsel ${i + 1}'e git`}
                     className={`w-2.5 h-2.5 rounded-full transition-all ${
                       i === currentImage ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/70'
                     }`}

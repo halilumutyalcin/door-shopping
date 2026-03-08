@@ -115,10 +115,11 @@ export default function ContactSection() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 mb-1">
                     Ad Soyad *
                   </label>
                   <input
+                    id="contact-name"
                     {...register('name')}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm"
                     placeholder="Adınız Soyadınız"
@@ -130,10 +131,11 @@ export default function ContactSection() {
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="contact-phone" className="block text-sm font-medium text-gray-700 mb-1">
                     Telefon *
                   </label>
                   <input
+                    id="contact-phone"
                     {...register('phone')}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm"
                     placeholder="05XX XXX XX XX"
@@ -148,10 +150,11 @@ export default function ContactSection() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="contact-email" className="block text-sm font-medium text-gray-700 mb-1">
                     E-posta *
                   </label>
                   <input
+                    id="contact-email"
                     {...register('email')}
                     type="email"
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm"
@@ -164,10 +167,11 @@ export default function ContactSection() {
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="contact-doorType" className="block text-sm font-medium text-gray-700 mb-1">
                     Kapı Türü *
                   </label>
                   <select
+                    id="contact-doorType"
                     {...register('doorType')}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm"
                   >
@@ -187,10 +191,11 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="contact-dimensions" className="block text-sm font-medium text-gray-700 mb-1">
                   Ölçü Bilgisi (Genişlik x Yükseklik)
                 </label>
                 <input
+                  id="contact-dimensions"
                   {...register('dimensions')}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm"
                   placeholder="Örn: 90cm x 210cm"
@@ -198,10 +203,11 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="contact-message" className="block text-sm font-medium text-gray-700 mb-1">
                   Mesajınız *
                 </label>
                 <textarea
+                  id="contact-message"
                   {...register('message')}
                   rows={4}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm resize-none"

@@ -13,18 +13,25 @@ function FAQItem({
   answer,
   isOpen,
   onToggle,
+  index,
 }: {
   question: string;
   answer: string;
   isOpen: boolean;
   onToggle: () => void;
+  index: number;
 }) {
+  const panelId = `faq-panel-${index}`;
+  const buttonId = `faq-button-${index}`;
+
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden bg-white">
       <button
+        id={buttonId}
         onClick={onToggle}
         className="w-full flex items-center justify-between p-5 text-left hover:bg-gray-50 transition-colors"
         aria-expanded={isOpen}
+        aria-controls={panelId}
       >
         <span className="font-medium text-primary-900 pr-4">{question}</span>
         <motion.div
@@ -38,6 +45,9 @@ function FAQItem({
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id={panelId}
+            role="region"
+            aria-labelledby={buttonId}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -77,6 +87,7 @@ export default function FAQSection() {
           {faqs.map((faq, index) => (
             <FAQItem
               key={index}
+              index={index}
               question={faq.question}
               answer={faq.answer}
               isOpen={openIndex === index}

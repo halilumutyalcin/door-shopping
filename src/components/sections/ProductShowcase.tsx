@@ -123,6 +123,7 @@ export default function ProductShowcase() {
                                 addToCompare(product);
                               }
                             }}
+                            aria-label={inCompare ? `${product.name} karşılaştırmadan çıkar` : `${product.name} karşılaştırmaya ekle`}
                             className={cn(
                               'absolute top-3 right-3 z-10 p-2 rounded-full transition-all',
                               inCompare

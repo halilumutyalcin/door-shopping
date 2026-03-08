@@ -69,6 +69,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+      </head>
       <body className="font-body antialiased">
         <CompareProvider>
           <Header />

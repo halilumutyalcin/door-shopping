@@ -164,27 +164,27 @@ export default function Footer() {
 
         {/* Alt Bar */}
         <div className="border-t border-white/10 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-400">
             © {currentYear} {siteConfig.name}. Tüm hakları saklıdır.
           </p>
           <div className="flex items-center space-x-4 text-sm">
             <Link
               href="/kvkk"
-              className="text-gray-500 hover:text-accent-400 transition-colors"
+              className="text-gray-400 hover:text-accent-400 transition-colors"
             >
               KVKK
             </Link>
-            <span className="text-gray-700">|</span>
+            <span className="text-gray-600">|</span>
             <Link
               href="/privacy"
-              className="text-gray-500 hover:text-accent-400 transition-colors"
+              className="text-gray-400 hover:text-accent-400 transition-colors"
             >
               Gizlilik Politikası
             </Link>
-            <span className="text-gray-700">|</span>
+            <span className="text-gray-600">|</span>
             <Link
               href="/terms"
-              className="text-gray-500 hover:text-accent-400 transition-colors"
+              className="text-gray-400 hover:text-accent-400 transition-colors"
             >
               Kullanım Şartları
             </Link>

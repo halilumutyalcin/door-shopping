@@ -87,15 +87,12 @@ export default function BlogSection() {
         </div>
 
         <div className="text-center mt-10">
-          <Link href="/blog">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center space-x-2 px-6 py-3 border-2 border-primary-600 text-primary-700 rounded-lg hover:bg-primary-50 font-medium transition-colors"
-            >
-              <span>Tüm Yazıları Gör</span>
-              <ArrowRight className="w-4 h-4" />
-            </motion.button>
+          <Link
+            href="/blog"
+            className="inline-flex items-center space-x-2 px-6 py-3 border-2 border-primary-600 text-primary-700 rounded-lg hover:bg-primary-50 font-medium transition-colors"
+          >
+            <span>Tüm Yazıları Gör</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </Container>
