@@ -1,0 +1,70 @@
+Bu fotoğraftaki kapıyı dikkatle analiz et. Sonra bu kapı için, aşağıdaki 3 şablona uygun şekilde 3 ayrı görsel üretim promptu yaz.
+
+Önce fotoğraftan şunları tespit et (promptlara yansıtacaksın):
+- Renk ve ton (ör: kar beyazı lake, koyu ceviz laminat, açık meşe)
+- Malzeme (ör: lake, CPL laminat, doğal ahşap kaplama)
+- Panel düzeni (ör: iki büyük göbekli panel, dikey çizgili modern, düz minimal)
+- Kasa ve pervaz detayı (ör: taçlı barok kasa, düz minimal kasa, dairesel oymalı yan dikme)
+- Kol ve aksesuar tipi (ör: saten nikel modern kol ve kare rozet, mat siyah minimal kol)
+- Özel detaylar (ör: CNC desen, vitray cam, çıta detay, rölyef taç süsleme)
+- Panelde dikey çizgi var mı yok mu
+
+Her promptu Türkçe, tek paragraf halinde, doğrudan kullanılabilir şekilde yaz. "Bu fotoğraftaki kapı" gibi referans kullan. Prompt başlıklarını ve odak açıklamalarını da ekle.
+
+===
+
+PROMPT 1 ŞABLONU — Tam Panel ve Kasa (Stüdyo Çekimi)
+
+Başlık formatı: "[Kapı Adı] - Tam Panel ve Kasa Görünümü"
+Odak: Kapının yüzeyini, panel düzenini ve kasa detayını tam boy sunmak.
+
+Prompt şu unsurları içermeli:
+- "Bu fotoğraftaki [renk] [malzeme] kapının ve [kasa detayı] kasasının stüdyo kalitesinde tam dikey fotoğrafı."
+- Panel düzenini detaylı tarif et. Dikey çizgi yoksa "herhangi bir dikey çizgi içermeyen" ifadesini kullan.
+- "Yumuşak ve dağınık doğal gün ışığı, [renk] tonunun üzerindeki panel derinliklerini zarif gölgelerle vurguluyor."
+- "Kapı, minimalist beyaz bir stüdyo fonu önünde, parlak beyaz mermer zemin üzerinde duruyor."
+- Kol ve rozet detayını ekle: "[kol tipi] net bir şekilde görülüyor."
+- "Kompozisyon dengeli, aydınlatma 'high-key', genel estetik lüks ve kusursuz."
+
+===
+
+PROMPT 2 ŞABLONU — Makro Detay
+
+Başlık formatı: "[Kapı Renk/Malzeme] ve [Donanım Rengi] Donanım - Makro Detay"
+Odak: Kapı kolunun metalik dokusunu, yüzeyin detayını ve kasa/panel işçiliğini vurgulamak.
+
+Prompt şu unsurları içermeli:
+- "Bu fotoğraftaki [renk] kapıdan bir makro, hiper-detay fotoğrafı."
+- "Odak, [kol tipi]nın fırçalanmış metal dokusu üzerindedir."
+- Panel yüzeyinin dokusunu tarif et (pürüzsüz lake / laminat dokusu / ahşap damarları vb.)
+- Kasa veya panel üzerindeki özel detayın (oyma, desen, çıta) işçiliğini tarif et.
+- "Panelde dikey çizgiler bulunmuyor; yüzey tamamen pürüzsüz" (eğer yoksa) veya panel özelliğini yaz.
+- "Kompozisyon, kasanın derinliğini ve kolun metalik parıltısını çapraz bir açıyla yakalıyor."
+- "Arka plan tamamen netsiz (bokeh), malzeme kalitesine odaklanan profesyonel bir katalog detayı."
+
+===
+
+PROMPT 3 ŞABLONU — Modern Minimalist Koridor Kurulum Konsepti
+
+Başlık formatı: "Modern Minimalist Koridor Kurulum Konsepti"
+Odak: Kapıyı lüks ve aydınlık bir yaşam alanı içinde sergilemek.
+
+Prompt şu unsurları içermeli:
+- "Bu fotoğraftaki [panel tarifi] kapı, koridorun sonundaki ana odak noktasıdır."
+- Kapı, koyu gri (antrasit) boya kaplı düz duvarlarda, gri tonlu pervaz/kasa ile çerçevelenmiş. Kasa rengi koyu gri.
+- "Tüm koridor zemini, parlak beyaz mermer görünümlü, geniş gri damarlı lüks karolarla kaplıdır."
+- "Kapının sağ tarafında, ince metal ayaklı ahşap üst yüzeyli minimalist bir konsol yer alıyor. Konsolun üzerinde seramik/terracotta vazolar ve sanat kitapları duruyor."
+- "Konsolun üzerindeki duvarda, siyah çerçeveli minimalist bir sanat eseri/baskı asılı."
+- "Koridorun sol tarafında, tavana kadar uzanan ince metal çerçeveli cam bölücülü açık kitaplık/vitrin birimi var. Kitaplığın arkasında kısmen görünen bej/krem tonlu kanepe ve battaniye."
+- "Tüm alan, tavandaki gizli LED şerit aydınlatma (sıcak beyaz) ve yanlardan gelen yumuşak doğal gün ışığı ile aydınlatılmış."
+- "Tavan kenarları, armatürler ve zemin geçişleri temiz ve profesyonel."
+- "Genel estetik, yüksek uçlu minimalist modern bir rezidansın lüks antresini yansıtıyor. Koyu gri duvarlar, beyaz mermer zemin ve metal detaylar arasında kapı kontrastlı bir odak noktası."
+- Kapının panel ve donanım özelliğini sahne içinde belirt.
+
+===
+
+KURALLAR:
+- Her promptu tek paragraf, doğrudan kopyalanıp yapıştırılabilir şekilde yaz.
+- Fotoğraftaki gerçek detaylara bağlı kal — uydurma veya fotoğrafta olmayan detay ekleme.
+- Promptlar Türkçe olsun.
+- Her prompt başlığını ve odak açıklamasını da ekle (başlık + odak + prompt şeklinde).
