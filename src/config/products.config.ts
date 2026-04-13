@@ -48,7 +48,7 @@ export const productCategories = [
     description: 'Yüksek güvenlikli, ses ve ısı yalıtımlı çelik kapı modelleri.',
     icon: 'Shield',
     image: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&h=600&fit=crop',
-    productCount: 24,
+    productCount: 3,
   },
   {
     id: 'ic-kapilar',
@@ -56,7 +56,7 @@ export const productCategories = [
     description: 'Lake, laminat, membran ve masif iç kapı modelleri.',
     icon: 'DoorOpen',
     image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&h=600&fit=crop',
-    productCount: 48,
+    productCount: 10,
   },
   {
     id: 'villa-kapilari',
@@ -64,7 +64,7 @@ export const productCategories = [
     description: 'Prestijli ve şık villa giriş kapıları.',
     icon: 'Home',
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=600&fit=crop',
-    productCount: 16,
+    productCount: 2,
   },
   {
     id: 'amerikan-panel-kapilar',
@@ -72,7 +72,7 @@ export const productCategories = [
     description: 'Ekonomik ve dayanıklı amerikan panel kapı çeşitleri.',
     icon: 'LayoutGrid',
     image: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200&h=600&fit=crop',
-    productCount: 20,
+    productCount: 1,
   },
   {
     id: 'cam-kapilar',
@@ -80,7 +80,7 @@ export const productCategories = [
     description: 'Temperli cam kapılar ve sürgülü sistemler.',
     icon: 'Maximize',
     image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&h=600&fit=crop',
-    productCount: 12,
+    productCount: 1,
   },
   {
     id: 'yangin-kapilari',
@@ -88,7 +88,7 @@ export const productCategories = [
     description: 'Sertifikalı yangın kapıları. 60-120 dk yangın dayanımı.',
     icon: 'Flame',
     image: 'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=1200&h=600&fit=crop',
-    productCount: 8,
+    productCount: 2,
   },
 ];
 
@@ -304,8 +304,8 @@ export const products: Product[] = [
     description: 'Luna serisi, hilal formundaki vitray cam detayıyla geleneksel Türk sanatını modern kapı tasarımıyla buluşturur. Açık meşe laminat kaplama ile sıcak ve doğal bir görünüm sunar.',
     images: [
       { src: '/kapi/ic-kapi-03/kapi-sahne.webp', alt: 'Luna Meşe Vitray Camlı İç Kapı - Mekan Görünümü', isPrimary: true },
-      { src: '/kapi/ic-kapi-03/kapi-detay.webp', alt: 'Luna Meşe Vitray Camlı İç Kapı - Detay' },
       { src: '/kapi/ic-kapi-03/kapi-yakin.webp', alt: 'Luna Meşe Vitray Camlı İç Kapı - Yakın Çekim' },
+      { src: '/kapi/ic-kapi-03/kapi-detay.webp', alt: 'Luna Meşe Vitray Camlı İç Kapı - Detay' },
     ],
     priceRange: { min: 7000, max: 10000, currency: 'TL', note: 'Kasa + Kanat + Pervaz' },
     specs: {
@@ -373,8 +373,8 @@ export const products: Product[] = [
     description: 'Royal serisi, dekoratif taç pervaz ve yaprak motifli vitray cam detayıyla klasik iç mekanlara prestij katan lake iç kapı modelidir. El işçiliğini andıran kabartma desenleriyle zamansız bir estetik sunar.',
     images: [
       { src: '/kapi/ic-kapi-05/kapi-sahne.webp', alt: 'Royal Beyaz Vitray Camlı İç Kapı - Mekan Görünümü', isPrimary: true },
-      { src: '/kapi/ic-kapi-05/kapi-detay.webp', alt: 'Royal Beyaz Vitray Camlı İç Kapı - Detay' },
       { src: '/kapi/ic-kapi-05/kapi-yakin.webp', alt: 'Royal Beyaz Vitray Camlı İç Kapı - Yakın Çekim' },
+      { src: '/kapi/ic-kapi-05/kapi-detay.webp', alt: 'Royal Beyaz Vitray Camlı İç Kapı - Detay' },
     ],
     priceRange: { min: 8000, max: 12000, currency: 'TL', note: 'Kasa + Kanat + Pervaz + Taç' },
     specs: {
@@ -443,8 +443,8 @@ export const products: Product[] = [
     description: 'Panorama serisi, yatay bölmeli 4 buzlu cam paneliyle mekanlara maksimum ışık geçişi sağlayan modern iç kapı modelidir. Sade çizgileri ve beyaz lake yüzeyiyle minimalist iç mekanlara mükemmel uyum sağlar.',
     images: [
       { src: '/kapi/ic-kapi-07/kapi-sahne.webp', alt: 'Panorama 4 Camlı Beyaz İç Kapı - Mekan Görünümü', isPrimary: true },
-      { src: '/kapi/ic-kapi-07/kapi-detay.webp', alt: 'Panorama 4 Camlı Beyaz İç Kapı - Detay' },
       { src: '/kapi/ic-kapi-07/kapi-yakin.webp', alt: 'Panorama 4 Camlı Beyaz İç Kapı - Yakın Çekim' },
+      { src: '/kapi/ic-kapi-07/kapi-detay.webp', alt: 'Panorama 4 Camlı Beyaz İç Kapı - Detay' },
     ],
     priceRange: { min: 7000, max: 9500, currency: 'TL', note: 'Kasa + Kanat + Pervaz' },
     specs: {
