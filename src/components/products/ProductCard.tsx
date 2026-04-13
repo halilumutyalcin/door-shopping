@@ -102,7 +102,10 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
 
         {/* Content */}
         <div className="p-4">
-          <p className="text-xs text-gray-500 font-medium mb-1">{product.brand}</p>
+          <div className="flex items-center justify-between mb-1">
+            <p className="text-xs text-gray-500 font-medium">{product.brand}</p>
+            <span className="text-[10px] font-mono text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded">{product.sku}</span>
+          </div>
           <h3 className="font-heading font-semibold text-gray-900 group-hover:text-primary-700 transition-colors line-clamp-2 mb-2">
             {product.name}
           </h3>

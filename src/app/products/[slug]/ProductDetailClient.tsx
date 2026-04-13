@@ -67,9 +67,11 @@ export default function ProductDetailClient({ product, category, relatedProducts
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mt-8 lg:mt-0"
         >
-          {/* Brand & Badge */}
-          <div className="flex items-center gap-3 mb-2">
+          {/* Brand, SKU & Badge */}
+          <div className="flex items-center flex-wrap gap-3 mb-2">
             <span className="text-sm text-gray-500 font-medium">{product.brand}</span>
+            <span className="text-xs text-gray-400">|</span>
+            <span className="text-xs font-mono text-gray-400 bg-gray-100 px-2 py-0.5 rounded">{product.sku}</span>
             {product.badge && (
               <Badge variant={badgeVariantMap[product.badge] || 'default'}>
                 {product.badge}
@@ -161,6 +163,7 @@ export default function ProductDetailClient({ product, category, relatedProducts
           <table className="w-full">
             <tbody>
               {[
+                { label: 'Ürün Kodu', value: product.sku },
                 { label: 'Malzeme', value: product.specs.material },
                 { label: 'Genişlik', value: product.specs.width },
                 { label: 'Yükseklik', value: product.specs.height },
