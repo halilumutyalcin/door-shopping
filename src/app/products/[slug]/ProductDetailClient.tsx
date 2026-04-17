@@ -237,7 +237,16 @@ export default function ProductDetailClient({ product, category, relatedProducts
                 >
                   {img && (
                     <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
-                      <Image src={img.src} alt={img.alt} fill className="object-cover" sizes="80px" />
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        className="object-cover"
+                        sizes="80px"
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjwvc3ZnPg=="
+                      />
                     </div>
                   )}
                   <div className="flex-1 min-w-0">

@@ -16,10 +16,23 @@ interface ProductImageGalleryProps {
 
 export default function ProductImageGallery({ images }: ProductImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(new Set([0]));
   const lightbox = useLightbox();
 
   const lightboxImages = images.map((img) => ({ src: img.src, alt: img.alt }));
   const currentImage = images[selectedIndex];
+
+  const handleSelect = (i: number) => {
+    setSelectedIndex(i);
+    // Prefetch adjacent images
+    setLoadedIndices((prev) => {
+      const next = new Set(prev);
+      next.add(i);
+      if (i > 0) next.add(i - 1);
+      if (i < images.length - 1) next.add(i + 1);
+      return next;
+    });
+  };
 
   return (
     <>
@@ -42,7 +55,9 @@ export default function ProductImageGallery({ images }: ProductImageGalleryProps
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  priority={selectedIndex === 0}
+                  priority
+                  placeholder="blur"
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PC9zdmc+"
                 />
               )}
             </motion.div>
@@ -61,6 +76,21 @@ export default function ProductImageGallery({ images }: ProductImageGalleryProps
           <div className="absolute top-4 left-4 bg-black/50 text-white text-xs font-medium px-2.5 py-1 rounded-full">
             {selectedIndex + 1} / {images.length}
           </div>
+
+          {/* Prefetch adjacent images */}
+          {images.map((img, i) =>
+            i !== selectedIndex && loadedIndices.has(i) ? (
+              <Image
+                key={`prefetch-${i}`}
+                src={img.src}
+                alt=""
+                fill
+                className="sr-only pointer-events-none"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                aria-hidden
+              />
+            ) : null
+          )}
         </div>
 
         {/* Thumbnail Strip */}
@@ -69,7 +99,7 @@ export default function ProductImageGallery({ images }: ProductImageGalleryProps
             {images.map((img, i) => (
               <button
                 key={i}
-                onClick={() => setSelectedIndex(i)}
+                onClick={() => handleSelect(i)}
                 className={cn(
                   'relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden transition-all',
                   i === selectedIndex
@@ -83,6 +113,7 @@ export default function ProductImageGallery({ images }: ProductImageGalleryProps
                   fill
                   className="object-cover"
                   sizes="80px"
+                  loading={i <= 2 ? 'eager' : 'lazy'}
                 />
               </button>
             ))}

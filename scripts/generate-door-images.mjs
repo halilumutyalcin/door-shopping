@@ -39,21 +39,32 @@ if (fs.existsSync(envPath)) {
 }
 
 // ─── Ayarlar ─────────────────────────────────────────────
-const FOTO_DIR = '/Users/medisan/Downloads/kapi-fotolari';
-const OUTPUT_BASE = path.join(FOTO_DIR, 'output');
+const DEFAULT_FOTO_DIR = '/Users/medisan/Downloads/kapi-fotolari';
 const PROJECT_DIR = path.join(__dirname, '..', 'public', 'kapi');
 const PROMPT_MODEL = 'gemini-2.5-flash';         // prompt üretimi
 const IMAGE_MODEL = 'gemini-2.5-flash-image';   // görsel üretimi (Nano Banana)
 
 // WebP dönüşüm fonksiyonu (cwebp ile)
 function convertToWebp(pngPath, webpPath) {
-  execSync(`/opt/homebrew/bin/cwebp -q 85 -resize 1200 1601 "${pngPath}" -o "${webpPath}" 2>/dev/null`);
+  // Yeniden boyutlandırma yapmadan yüksek kaliteyle dönüştür: detay kaybını azaltır.
+  execSync(`/opt/homebrew/bin/cwebp -q 96 -m 6 "${pngPath}" -o "${webpPath}" 2>/dev/null`);
 }
 
-const MASTER_PROMPT = fs.readFileSync(
-  new URL('./gemini-master-prompt.txt', import.meta.url),
-  'utf-8'
-);
+// Try premium prompt first, fall back to standard
+let MASTER_PROMPT;
+try {
+  MASTER_PROMPT = fs.readFileSync(
+    new URL('./gemini-master-prompt-premium.txt', import.meta.url),
+    'utf-8'
+  );
+  console.log('📋 Premium master prompt loaded');
+} catch (e) {
+  MASTER_PROMPT = fs.readFileSync(
+    new URL('./gemini-master-prompt.txt', import.meta.url),
+    'utf-8'
+  );
+  console.log('📋 Standard master prompt loaded');
+}
 
 // ─── API ─────────────────────────────────────────────────
 const apiKey = process.env.GEMINI_API_KEY;
@@ -93,12 +104,14 @@ function getMime(filePath) {
 
 /** Gemini yanıtından prompt metinlerini ayıkla */
 function parsePrompts(text) {
-  // Yöntem 1: PROMPT 1, PROMPT 2, PROMPT 3
+  // Yöntem 1: PROMPT 1 / PROMPT 1 - ... / PROMPT 1: ...
   const sections = [];
-  const regex = /PROMPT\s*(\d)\s*[—–-]\s*(.*?)(?=PROMPT\s*\d|$)/gs;
+  const regex = /PROMPT\s*(\d)\s*[:—–-]?\s*\n?([\s\S]*?)(?=\n\s*PROMPT\s*\d\s*[:—–-]?\s*\n?|$)/gi;
   let match;
   while ((match = regex.exec(text)) !== null) {
-    sections.push({ num: parseInt(match[1]), full: match[0].trim() });
+    const num = parseInt(match[1], 10);
+    const body = (match[2] || '').trim();
+    sections.push({ num, full: `PROMPT ${num}\n${body}`.trim() });
   }
   if (sections.length >= 3) return sections;
 
@@ -179,6 +192,50 @@ async function generateImage(promptText, refImagePath, label, attempt = 1) {
   const imageBase64 = fileToBase64(refImagePath);
   const mime = getMime(refImagePath);
 
+  const labelLower = label.toLowerCase();
+  let shotDirectives = `
+[PROFESSIONAL CATALOG STANDARD]
+Rendering: 50MP+ e-commerce/luxury catalog photography quality, hiper-realistic.
+Renk: D65 (6500K) neutral white balance, no color cast.
+Dinamic Range: Shadows detailed, highlights preserved, no clipping.
+Keskinlik: Tack-sharp, optical perfection, no blur/softness.
+Negatifler: Amatör, Instagram filter, oversaturated, blurry, grain, harsh shadows, CGI obvious, plastik.
+`;
+
+  if (labelLower.includes('makro')) {
+    shotDirectives = `
+[LUXURY MACRO DETAIL STANDARD]
+Çekim: Hardware (kol/kilit/rozet) makro + panel/kasa micro-texture detail.
+Kadraj: Hardware 65-75% of frame, bokeh background, diagonal angle for 3D form.
+Optic: 85mm f/1.4-2.8 macro equivalent, raking light 85°, specular+diffuse balanced.
+Metal: Satin-nickel fırçalanmış doku real, specularity controlled, no cheap chrome shine.
+Panel: Surface texture authentic (not flat CGI), micro-variation visible.
+Rendering: 100MP+ luxury macro catalog standard, Leica/Zeiss/Octane quality.
+Negatifler: Soft-focus, web-resolution, oversharpen, flat render, plastic, CGI obvious.
+`;
+  } else if (labelLower.includes('studyo')) {
+    shotDirectives = `
+[PREMIUM PRODUCT STUDIO STANDARD]
+Çekim: Full product (kapı + kasa), merkez, studio-neutral background.
+Geometri: Perspektif doğru, proportions perfect, no distortion.
+Işık: Ring-light/softbox 45°, diffuse + soft, shadows controlled detail-rich.
+Keskinlik: F/4-8 equivalent, optik perfection, tack-sharp panel detayı.
+Renk: D65 neutral, material authenticity, no bias cast.
+Rendering: 50MP+ e-commerce catalog standard, professional studio kalitesi.
+Negatifler: Amatör, instagram filter, oversaturated, harsh lighting, cheap hissi.
+`;
+  } else if (labelLower.includes('sahne')) {
+    shotDirectives = `
+[LUXURY INTERIOR ARCHITECTURAL STANDARD]
+Çekim: Showroom/luxury interior scene, kapı ana odak, ultra-professional context.
+Mekan: Minimal, clean, high-end design, no clutter.
+Geometri: 24-35mm wide lens, no fisheye distortion, human-eye+ perspective.
+Işık: Mixed D65 neutral + 2700K warm LED, soft shadows, holistic glow.
+Rendering: Architectural Digest / Elle Decor tier, 100MP+ interior photography standard.
+Negatifler: Amatör styling, Instagram random, harsh lighting, plastic furniture, cluttered.
+`;
+  }
+
   try {
     const response = await ai.models.generateContent({
       model: IMAGE_MODEL,
@@ -187,7 +244,7 @@ async function generateImage(promptText, refImagePath, label, attempt = 1) {
           role: 'user',
           parts: [
             { inlineData: { mimeType: mime, data: imageBase64 } },
-            { text: promptText + '\n\nBu referans fotoğraftaki kapıyı temel alarak yukarıdaki prompttaki görseli üret. Dikey (portrait) format. Profesyonel fotoğrafçılık kalitesi.' }
+            { text: `${promptText}\n\n[GEMINI OUTPUT DIRECTIVE]\nBu referans fotoğraftaki kapıyı temel alarak yukarıdaki prompttaki görseli üret. Dikey (portrait, 3:4) format.\n${shotDirectives}\n[END DIRECTIVE]` }
           ]
         }
       ],
@@ -232,18 +289,29 @@ async function generateImage(promptText, refImagePath, label, attempt = 1) {
 
 // ─── Ana Akış ─────────────────────────────────────────────
 
-async function processDoor(filename) {
+async function processDoor(filename, options = {}) {
+  const sourceDir = options.sourceDir || DEFAULT_FOTO_DIR;
+  const outputBase = options.outputBase || path.join(sourceDir, 'output');
+  const force = Boolean(options.force);
+
   const actualFile = typeof filename === 'object' ? filename.file : filename;
   const baseName = actualFile.replace(/\.[^.]+$/, '');
-  const dngPath = path.join(FOTO_DIR, actualFile);
+  const dngPath = path.join(sourceDir, actualFile);
 
   if (!fs.existsSync(dngPath)) {
     console.error(`❌ Dosya bulunamadı: ${dngPath}`);
     return;
   }
 
-  const outDir = path.join(OUTPUT_BASE, baseName);
+  const outDir = path.join(outputBase, baseName);
   fs.mkdirSync(outDir, { recursive: true });
+
+  if (force) {
+    for (const fileName of ['prompts.txt', 'gorsel-1-studyo.png', 'gorsel-2-makro.png', 'gorsel-3-sahne.png']) {
+      const filePath = path.join(outDir, fileName);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    }
+  }
 
   // Promptlar zaten varsa atla
   const promptsFile = path.join(outDir, 'prompts.txt');
@@ -304,6 +372,12 @@ async function processDoor(filename) {
   if (projFolder) {
     const projDir = path.join(PROJECT_DIR, projFolder);
     fs.mkdirSync(projDir, { recursive: true });
+    if (force) {
+      for (const webpName of webpNames) {
+        const staleWebp = path.join(projDir, webpName);
+        if (fs.existsSync(staleWebp)) fs.unlinkSync(staleWebp);
+      }
+    }
     for (let i = 0; i < 3; i++) {
       const pngPath = path.join(outDir, pngNames[i]);
       const webpPath = path.join(projDir, webpNames[i]);
@@ -327,6 +401,11 @@ async function processDoor(filename) {
 async function main() {
   const args = process.argv.slice(2);
 
+  const sourceArg = args.find(a => a.startsWith('--source-dir='));
+  const sourceDir = sourceArg ? sourceArg.replace('--source-dir=', '') : DEFAULT_FOTO_DIR;
+  const outputBase = path.join(sourceDir, 'output');
+  const forceRegenerate = args.includes('--force-regenerate');
+
   if (args.length === 0) {
     console.log(`
 🚪 Kapı Görsel Üretim Otomasyonu
@@ -347,6 +426,7 @@ Seçenekler:
   const promptsOnly = args.includes('--prompts-only');
   const processAll = args.includes('--all');
   const projectMode = args.includes('--project');
+  const icRefreshMode = args.includes('--ic-refresh');
 
   // --project modu: IMG_6474-6482 → ic-kapi-11 - ic-kapi-19
   if (projectMode) {
@@ -364,14 +444,15 @@ Seçenekler:
 
     console.log(`\n🚪 Kapı Görsel Üretim → Proje Kayıt Modu`);
     console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-    console.log(`📁 Kaynak: ${FOTO_DIR}`);
+    console.log(`📁 Kaynak: ${sourceDir}`);
     console.log(`📁 Proje:  ${PROJECT_DIR}`);
     console.log(`📄 Dosya:  ${mapping.length} adet`);
+    if (forceRegenerate) console.log(`⚙️  Mod: Zorla yeniden üretim`);
     console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
 
     for (let i = 0; i < mapping.length; i++) {
       console.log(`\n[${i + 1}/${mapping.length}] 📸 ${mapping[i].file} → ${mapping[i].projectFolder}`);
-      await processDoor(mapping[i]);
+      await processDoor(mapping[i], { sourceDir, outputBase, force: forceRegenerate });
       if (i < mapping.length - 1) {
         console.log(`   ⏳ Sonraki dosya için 5s bekleniyor...`);
         await new Promise(r => setTimeout(r, 5000));
@@ -383,16 +464,49 @@ Seçenekler:
     return;
   }
 
+  if (icRefreshMode) {
+    const dngFiles = fs.readdirSync(sourceDir)
+      .filter(f => /\.dng$/i.test(f) && !/_temp\.jpg$/i.test(f))
+      .sort();
+
+    const mapping = dngFiles.map((file, i) => ({
+      file,
+      projectFolder: `ic-kapi-${String(i + 1).padStart(2, '0')}`,
+    }));
+
+    console.log(`\n🚪 İç Kapı Tam Yenileme Modu`);
+    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    console.log(`📁 Kaynak: ${sourceDir}`);
+    console.log(`📁 Proje:  ${PROJECT_DIR}`);
+    console.log(`📄 Dosya:  ${mapping.length} adet`);
+    console.log(`⚙️  Mod: Zorla yeniden üretim`);
+    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+
+    for (let i = 0; i < mapping.length; i++) {
+      console.log(`\n[${i + 1}/${mapping.length}] 📸 ${mapping[i].file} → ${mapping[i].projectFolder}`);
+      await processDoor(mapping[i], { sourceDir, outputBase, force: true });
+      if (i < mapping.length - 1) {
+        console.log(`   ⏳ Sonraki dosya için 5s bekleniyor...`);
+        await new Promise(r => setTimeout(r, 5000));
+      }
+    }
+
+    console.log(`\n${'━'.repeat(40)}`);
+    console.log(`🎉 Tamamlandı! İç kapılar yenilendi: ${PROJECT_DIR}`);
+    return;
+  }
+
   const files = processAll
-    ? fs.readdirSync(FOTO_DIR).filter(f => /\.dng$/i.test(f)).sort()
+    ? fs.readdirSync(sourceDir).filter(f => /\.dng$/i.test(f)).sort()
     : args.filter(a => !a.startsWith('--'));
 
   console.log(`\n🚪 Kapı Görsel Üretim Otomasyonu`);
   console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-  console.log(`📁 Kaynak: ${FOTO_DIR}`);
-  console.log(`📁 Çıktı:  ${OUTPUT_BASE}`);
+  console.log(`📁 Kaynak: ${sourceDir}`);
+  console.log(`📁 Çıktı:  ${outputBase}`);
   console.log(`📄 Dosya:  ${files.length} adet`);
   if (promptsOnly) console.log(`⚙️  Mod: Sadece prompt üretimi`);
+  if (forceRegenerate) console.log(`⚙️  Mod: Zorla yeniden üretim`);
   console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
 
   for (let i = 0; i < files.length; i++) {
@@ -401,10 +515,10 @@ Seçenekler:
     if (promptsOnly) {
       // Sadece prompt üret
       const baseName = files[i].replace(/\.[^.]+$/, '');
-      const outDir = path.join(OUTPUT_BASE, baseName);
+      const outDir = path.join(outputBase, baseName);
       fs.mkdirSync(outDir, { recursive: true });
 
-      let imagePath = path.join(FOTO_DIR, files[i]);
+      let imagePath = path.join(sourceDir, files[i]);
       if (/\.dng$/i.test(files[i])) imagePath = convertToJpeg(imagePath);
 
       const promptsText = await generatePrompts(imagePath);
@@ -413,10 +527,10 @@ Seçenekler:
       console.log(`   💾 ${promptsFile}`);
 
       // Temp temizle
-      const tempJpeg = path.join(FOTO_DIR, files[i]).replace(/\.DNG$/i, '_temp.jpg');
+      const tempJpeg = path.join(sourceDir, files[i]).replace(/\.DNG$/i, '_temp.jpg');
       if (fs.existsSync(tempJpeg)) fs.unlinkSync(tempJpeg);
     } else {
-      await processDoor(files[i]);
+      await processDoor(files[i], { sourceDir, outputBase, force: forceRegenerate });
     }
 
     // Dosyalar arası rate limit
@@ -427,7 +541,7 @@ Seçenekler:
   }
 
   console.log(`\n${'━'.repeat(40)}`);
-  console.log(`🎉 Tamamlandı! Çıktılar: ${OUTPUT_BASE}`);
+  console.log(`🎉 Tamamlandı! Çıktılar: ${outputBase}`);
 }
 
 main().catch(err => {

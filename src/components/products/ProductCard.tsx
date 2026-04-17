@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -14,6 +14,7 @@ import { formatPrice } from '@/config/products.config';
 interface ProductCardProps {
   product: Product;
   index?: number;
+  priority?: boolean;
 }
 
 const badgeVariantMap: Record<string, 'new' | 'popular' | 'discount' | 'custom'> = {
@@ -24,9 +25,11 @@ const badgeVariantMap: Record<string, 'new' | 'popular' | 'discount' | 'custom'>
   'Sınırlı Stok': 'custom',
 };
 
-export default function ProductCard({ product, index = 0 }: ProductCardProps) {
+export default function ProductCard({ product, index = 0, priority = false }: ProductCardProps) {
   const { addToCompare, removeFromCompare, isInCompare, isFull } = useCompare();
   const inCompare = isInCompare(product.id);
+  const [isHovered, setIsHovered] = useState(false);
+  const [secondaryLoaded, setSecondaryLoaded] = useState(false);
 
   const primaryImage = product.images.find((img) => img.isPrimary) || product.images[0];
   const secondaryImage = product.images[1];
@@ -43,14 +46,15 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ delay: Math.min(index, 5) * 0.05, duration: 0.4 }}
     >
       <Link
         href={`/products/${product.slug}`}
         className="group block bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300"
+        onMouseEnter={() => setIsHovered(true)}
       >
         {/* Image */}
         <div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
@@ -63,16 +67,22 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                 'object-cover transition-all duration-500',
                 secondaryImage ? 'group-hover:opacity-0' : 'group-hover:scale-110'
               )}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              loading={priority ? 'eager' : 'lazy'}
+              priority={priority}
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PC9zdmc+"
             />
           )}
-          {secondaryImage && (
+          {secondaryImage && (isHovered || secondaryLoaded) && (
             <Image
               src={secondaryImage.src}
               alt={secondaryImage.alt}
               fill
               className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              loading="lazy"
+              onLoad={() => setSecondaryLoaded(true)}
             />
           )}
 

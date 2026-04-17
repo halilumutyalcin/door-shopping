@@ -1,16 +1,49 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { products } from '@/config/products.config';
+import React, { useState, useMemo, useEffect } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { productCategories, products } from '@/config/products.config';
 import ProductCard from '@/components/products/ProductCard';
 import ProductFilter from '@/components/products/ProductFilter';
 
+const PRODUCTS_PER_PAGE = 12;
+
 export default function ProductCatalog() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const validCategoryIds = useMemo(() => new Set(productCategories.map((c) => c.id)), []);
+
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 100000]);
   const [sortBy, setSortBy] = useState('recommended');
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(PRODUCTS_PER_PAGE);
+
+  useEffect(() => {
+    const categoryFromUrl = searchParams.get('category') || '';
+    const normalizedCategory = validCategoryIds.has(categoryFromUrl) ? categoryFromUrl : '';
+
+    if (normalizedCategory !== selectedCategory) {
+      setSelectedCategory(normalizedCategory);
+    }
+  }, [searchParams, validCategoryIds, selectedCategory]);
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    setVisibleCount(PRODUCTS_PER_PAGE);
+
+    const params = new URLSearchParams(searchParams.toString());
+    if (category) {
+      params.set('category', category);
+    } else {
+      params.delete('category');
+    }
+
+    const nextQuery = params.toString();
+    router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname, { scroll: false });
+  };
 
   const handleMaterialToggle = (material: string) => {
     setSelectedMaterials((prev) =>
@@ -18,6 +51,7 @@ export default function ProductCatalog() {
         ? prev.filter((m) => m !== material)
         : [...prev, material]
     );
+    setVisibleCount(PRODUCTS_PER_PAGE);
   };
 
   const filteredProducts = useMemo(() => {
@@ -67,7 +101,7 @@ export default function ProductCatalog() {
       <div className="lg:col-span-1">
         <ProductFilter
           selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
+          onCategoryChange={handleCategoryChange}
           selectedMaterials={selectedMaterials}
           onMaterialToggle={handleMaterialToggle}
           priceRange={priceRange}
@@ -90,11 +124,29 @@ export default function ProductCatalog() {
         </div>
 
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            {filteredProducts.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              {filteredProducts.slice(0, visibleCount).map((product, index) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  index={index}
+                  priority={index < 6}
+                />
+              ))}
+            </div>
+
+            {visibleCount < filteredProducts.length && (
+              <div className="flex justify-center mt-10">
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + PRODUCTS_PER_PAGE)}
+                  className="px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors shadow-md hover:shadow-lg"
+                >
+                  Daha Fazla Göster ({filteredProducts.length - visibleCount} ürün kaldı)
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center py-20">
             <p className="text-gray-500 text-lg mb-2">Bu kriterlere uygun ürün bulunamadı</p>
